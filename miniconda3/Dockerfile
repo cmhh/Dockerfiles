@@ -22,4 +22,10 @@ RUN apt-get update --fix-missing && \
   
 RUN TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
   curl -L "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}.deb" > tini.deb && \
-  dpkg -i tini.deb
+  dpkg -i tini.deb && \
+  rm tini.deb
+  
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV PATH /opt/conda/bin:$PATH
+
+ENTRYPOINT [ "/usr/bin/tini", "--"]
